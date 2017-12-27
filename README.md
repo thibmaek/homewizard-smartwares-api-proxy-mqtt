@@ -8,7 +8,7 @@ This project is not officially affiliated with any of the products.
 ## Installation / Configuration
 
 1. Clone & install npm dependencies
-2. Copy/move `.sample.env` file to `.env` and fill in your username and password. You should also change the BROKER variable to point to the address of your own MQTT broker. Adding a port is not required
+2. Copy/move `sample.env` file to `.env` and fill in your username and password. You should also change the BROKER variable to point to the address of your own MQTT broker. Adding a port is not required
 3. Start the development server with `npm run dev` or the production server with `npm start`
 
 You should then obtain the specific ids for each plug since you will need to use them in the MQTT topic publishing.
