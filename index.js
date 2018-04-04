@@ -5,7 +5,11 @@ require(`dotenv`).config();
 const getToken = require(`./routes/token`);
 const toTitleCase = require(`./lib/toTitleCase`);
 
-const client = mqtt.connect(`mqtt://${process.env.BROKER}`);
+const client = mqtt.connect(`mqtt://${process.env.BROKER}`, {
+  username: process.env.BROKER_USER,
+  password: process.env.BROKER_PASS,
+  port: process.env.BROKER_PORT,
+});
 
 /**
  * Connect to the MQTT Broker endpoint
