@@ -1,10 +1,14 @@
 {
   "name": "homewizard-smartwares-api-proxy-mqtt",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Homewizard (Smartwares) MQTT Proxy API",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon .",
+    "dev": "nodemon local.js",
+    "resin:build": "resin build . --deviceType raspberrypi3 --arch armhf",
+    "resin:deploy": "sudo resin local push resin.local --source .",
+    "serverless:local": "sls invoke local -f homewizard-smartwares-proxy-mqtt",
+    "serverless:deploy": "sls deploy function -f homewizard-smartwares-proxy-mqtt",
     "start": "forever . --spinSleepTime 1000"
   },
   "author": "Thibault Maekelbergh <thibault.maekelbergh@icloud.com> (https://thibmaekelbergh.be)",
@@ -13,15 +17,18 @@
     "node": ">=8"
   },
   "dependencies": {
+    "consola": "^1.2.0",
     "dotenv": "^4.0.0",
     "forever": "^0.15.3",
     "got": "^8.0.1",
     "mqtt": "^2.15.0",
-    "nodemon": "^1.12.1",
     "sha1": "^1.1.1"
   },
   "devDependencies": {
-    "eslint": "^4.12.1",
-    "eslint-config-devine": "^1.7.1"
+    "eslint": "^4.19.1",
+    "eslint-config-thibmaek": "^1.0.4",
+    "nodemon": "^1.17.3",
+    "resin-cli": "^7.2.4",
+    "serverless": "^1.26.1"
   }
 }

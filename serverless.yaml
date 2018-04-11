@@ -1,0 +1,12 @@
+service:
+  name: homewizard-smartwares-proxy-mqtt
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  environment:
+      ENV: production
+
+functions:
+  homewizard-smartwares-proxy-mqtt:
+    handler: index.handler

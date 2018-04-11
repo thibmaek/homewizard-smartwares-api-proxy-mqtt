@@ -1,0 +1,7 @@
+node_modules
+
+.eslintrc
+.gitignore
+README.md
+sample.env
+serverless.yaml
