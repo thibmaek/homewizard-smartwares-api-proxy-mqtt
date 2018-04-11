@@ -9,7 +9,7 @@
     "resin:deploy": "sudo resin local push resin.local --source .",
     "serverless:local": "sls invoke local -f homewizard-smartwares-proxy-mqtt",
     "serverless:deploy": "sls deploy function -f homewizard-smartwares-proxy-mqtt",
-    "start": "forever . --spinSleepTime 1000"
+    "start": "forever local.js --spinSleepTime 1000"
   },
   "author": "Thibault Maekelbergh <thibault.maekelbergh@icloud.com> (https://thibmaekelbergh.be)",
   "license": "MIT",
@@ -22,6 +22,7 @@
     "forever": "^0.15.3",
     "got": "^8.0.1",
     "mqtt": "^2.15.0",
+    "node": "^8.11.1",
     "sha1": "^1.1.1"
   },
   "devDependencies": {
