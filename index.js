@@ -1,9 +1,11 @@
+/* eslint-disable no-console */
+
 require(`dotenv`).config();
 const mqtt = require(`mqtt`);
 const got = require(`got`);
 const consola = require(`consola`);
 
-const isDevelopment = process.env.ENV === 'development';
+const isDevelopment = process.env.ENV === `development`;
 
 const getToken = require(`./routes/token`);
 const toTitleCase = require(`./lib/toTitleCase`);
@@ -12,9 +14,9 @@ const UUID_REGEX = /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-
 
 exports.handler = (event, context, callback) => {
   const client = mqtt.connect(`mqtt://${process.env.BROKER}`, {
-    username: process.env.BROKER_USER,
     password: process.env.BROKER_PASS,
     port: process.env.BROKER_PORT,
+    username: process.env.BROKER_USER,
   });
 
   client.on(`connect`, () => {
@@ -29,25 +31,23 @@ exports.handler = (event, context, callback) => {
       const deviceId = res[1];
 
       if ((!res || res.length > 2) || (!id && !deviceId)) {
-        consola.error('No id and/or deviceId passed');
+        consola.error(`No id and/or deviceId passed`);
       }
 
-      const {token} = await getToken();
+      const { token } = await getToken();
       const apiURL = `${process.env.API_URL}/${id}/devices/${deviceId}/action`;
 
-      const {body} = await got(apiURL, {
+      const { body } = await got(apiURL, {
         headers: {
           'x-session-token': token,
         },
         json: true,
-        body: {action},
+        body: { action },
       });
 
       if (isDevelopment) {
         console.info(`Request details`, {
-          req: {
-            topic, action, id, deviceId, apiURL, token, body: {action},
-          },
+          req: { action, apiURL, body: { action }, deviceId, id, token, topic },
           res: body,
         });
       }
@@ -55,4 +55,4 @@ exports.handler = (event, context, callback) => {
       callback(null);
     });
   });
-}
+};
