@@ -1,6 +1,0 @@
-local_resinos:
-  app-name: homewizard-smartwares-api-proxy-mqtt
-  build-triggers:
-    - Dockerfile: d6b6844441179b59d28eb23e8bf09d4466b7162337fc4541149176e348cd80f9
-    - package.json: 5b1a60425d74d03b26eba78cbb38fe2a70b675bbb32cadbd2ae1b6f8a7051157
-  environment: []

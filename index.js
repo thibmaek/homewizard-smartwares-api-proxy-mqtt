@@ -1,9 +1,11 @@
-/* eslint-disable no-console */
+/* eslint-disable import/unambiguous, no-console */
 
-require(`dotenv`).config();
 const mqtt = require(`mqtt`);
 const got = require(`got`);
 const consola = require(`consola`);
+const { name } = require(`./package.json`);
+
+require(`dotenv`).config();
 
 const isDevelopment = process.env.ENV === `development`;
 
@@ -12,17 +14,28 @@ const toTitleCase = require(`./lib/toTitleCase`);
 
 const UUID_REGEX = /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/ig;
 
-exports.handler = (event, context, callback) => {
+try {
   const client = mqtt.connect(`mqtt://${process.env.BROKER}`, {
+    clientId: name,
     password: process.env.BROKER_PASS,
     port: process.env.BROKER_PORT,
     username: process.env.BROKER_USER,
+  });
+
+  client.on(`error`, error => {
+    console.error(`Error occured during connection:`, error);
   });
 
   client.on(`connect`, () => {
     consola.success(`🔌 Connected to MQTT broker: ${process.env.BROKER}`);
 
     client.subscribe(`homewizard/switch/id/+/deviceId/+/setState`);
+
+    client.on(`error`, error => {
+      console.error(`Error occured during connection:`, error);
+      console.error(`Trying to reconnect...`);
+      client.reconnect();
+    });
 
     client.on(`message`, async (topic, message) => {
       const action = toTitleCase(message.toString());
@@ -38,11 +51,11 @@ exports.handler = (event, context, callback) => {
       const apiURL = `${process.env.API_URL}/${id}/devices/${deviceId}/action`;
 
       const { body } = await got(apiURL, {
+        body: { action },
         headers: {
           'x-session-token': token,
         },
         json: true,
-        body: { action },
       });
 
       if (isDevelopment) {
@@ -52,7 +65,8 @@ exports.handler = (event, context, callback) => {
         });
       }
 
-      callback(null);
     });
   });
-};
+} catch (error) {
+  console.error(`Global error`, error);
+}

@@ -1,9 +1,8 @@
-FROM node:lts-alpine
+FROM node:10
 
-WORKDIR /usr/src/homewizard-smartwares-api-proxy-mqtt
+WORKDIR /usr/src/app
 COPY . .
 
 RUN npm install
-RUN npm install -g forever --unsafe-perm
 
 CMD ["npm", "run", "dev"]
