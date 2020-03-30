@@ -11,6 +11,7 @@ ENV BROKER_USER ""
 ENV HOMEWIZARD_USER ""
 ENV HOMEWIZARD_PASS ""
 
-RUN npm ci
+RUN npm install
+RUN npm run build
 
 CMD ["npm", "start"]
