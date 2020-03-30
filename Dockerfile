@@ -1,8 +1,16 @@
-FROM node:10
+FROM node:12
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/homewizard-smartwares-proxy-mqtt
 COPY . .
 
-RUN npm install
+ENV BROKER ""
+ENV BROKER_PORT ""
+ENV BROKER_USER ""
+ENV BROKER_USER ""
 
-CMD ["npm", "run", "dev"]
+ENV HOMEWIZARD_USER ""
+ENV HOMEWIZARD_PASS ""
+
+RUN npm ci
+
+CMD ["npm", "start"]

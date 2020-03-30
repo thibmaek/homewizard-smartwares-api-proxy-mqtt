@@ -1,7 +1,10 @@
 node_modules
 
 .eslintrc
+.prettierrc
+tsconfig.json
 .gitignore
 README.md
 sample.env
-serverless.yaml
+
+src
