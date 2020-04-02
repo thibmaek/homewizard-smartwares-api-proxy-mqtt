@@ -5,7 +5,7 @@ require(`dotenv`).config();
 
 import config, { MQTTTopics } from './config';
 import * as str from './lib/string';
-import doRequest from './api/doRequest';
+import performAction from './api/performAction';
 
 const client = mqtt.connect(`mqtt://${process.env.BROKER}`, {
   clientId: config.clientName,
@@ -42,10 +42,9 @@ client.on('message', async (topic, msgBuffer) => {
     return console.error(`No id and/or deviceId passed`);
   }
 
-  console.log(`Triggering new event for ${id}/deviceId`);
   try {
-    const response = await doRequest({ body: { action: message as Actions } }, { id, deviceId });
-
+    console.log(`Triggering new event for ${id}/${deviceId}`);
+    const response = await performAction({ id, deviceId }, message as Actions);
     console.log(response.body);
   } catch (error) {
     console.error('Failed performing request...', error);

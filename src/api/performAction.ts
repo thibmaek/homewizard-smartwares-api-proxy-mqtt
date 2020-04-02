@@ -1,4 +1,4 @@
-import got, { GotJSONOptions } from 'got';
+import got from 'got';
 
 import config from '../config';
 import getSessionToken from './getSessionToken';
@@ -8,9 +8,9 @@ interface DeviceRequest {
   deviceId: string;
 }
 
-export default async function doRequest(
-  request: Omit<GotJSONOptions, 'json'>,
+export default async function performAction(
   device: DeviceRequest,
+  action: Actions,
 ) {
   const { HOMEWIZARD_USER, HOMEWIZARD_PASS } = process.env;
   const token = await getSessionToken(HOMEWIZARD_USER, HOMEWIZARD_PASS);
@@ -24,6 +24,8 @@ export default async function doRequest(
       'x-session-token': token,
     },
     json: true,
-    ...request,
+    body: {
+      action
+    },
   });
 }
